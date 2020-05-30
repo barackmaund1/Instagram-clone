@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.urls import reverse
 # Create your models here.
 class Image(models.Model):
     image_name=models.CharField(max_length=50)
@@ -16,7 +17,8 @@ class Image(models.Model):
         self.delete()
     def total_likes(self):
         return self.likes.count()
-    
+    def get_absolute_url(self):
+        return reverse('post-detail', kwargs={'pk': self.pk})
     class Meta:
         ordering = ["-pk"]
     def __str__(self):

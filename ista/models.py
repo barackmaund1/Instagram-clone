@@ -23,34 +23,16 @@ class Image(models.Model):
         ordering = ["-pk"]
     def __str__(self):
         return self.image_name
-class Follower(models.Model):
-    follower = models.ForeignKey(User,on_delete=models.CASCADE, related_name='following')
-    following = models.ForeignKey(User,on_delete=models.CASCADE,  related_name='followers')
-    
-    class Meta:
-        unique_together = ('follower', 'following')
 
-    def __unicode__(self):
-        return u'%s follows %s' % (self.follower, self.following)  
 class Comment(models.Model):
     class Meta:
         db_table = "comments"     
-    image_id = models.ForeignKey(Image ,on_delete=models.CASCADE, related_name='comments')
-    author_id = models.ForeignKey(User,on_delete=models.CASCADE, related_name='comments')
-    content = models.TextField('Comment')
+    image = models.ForeignKey(Image ,on_delete=models.CASCADE, related_name='comments')
+    comment= models.TextField()
     pub_date = models.DateTimeField('Date of comment', default=timezone.now)
- 
+    active = models.BooleanField(default=False)
     def __str__(self):
         return self.content[0:200]
  
-    def get_offset(self):
-        level = len(self.path) - 1
-        if level > 5:
-            level = 5
-        return level
- 
-    def get_col(self):
-        level = len(self.path) - 1
-        if level > 5:
-            level = 5
-        return 12 - level              
+    class Meta:
+        ordering = ["-pk"]

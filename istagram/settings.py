@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'istagram.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'istagram',
+        'NAME': 'istagram1',
         'USER': 'moringa',
     'PASSWORD':'Access',
     }

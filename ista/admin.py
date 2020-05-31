@@ -4,3 +4,12 @@ from .models import Image,Comment,Follower
 admin.site.register(Image)
 admin.site.register(Comment)
 admin.site.register(Follower)
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('image', 'comment', 'pub_date','active')
+    list_filter = ('active', 'pub_date')
+    search_fields = ('comment')
+    actions = ['approve_comments']
+
+    def approve_comments(self, request, queryset):
+        queryset.update(active=True)

@@ -28,3 +28,12 @@ class Profile(models.Model):
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.image.path)
+class Follower(models.Model):
+    follower = models.ForeignKey(User,on_delete=models.CASCADE, related_name='following')
+    following = models.ForeignKey(User,on_delete=models.CASCADE,  related_name='followers')
+    
+    class Meta:
+        unique_together = ('follower', 'following')
+
+    def __unicode__(self):
+        return u'%s follows %s' % (self.follower, self.following)              

@@ -9,7 +9,7 @@ class Image(models.Model):
     caption = models.CharField(max_length=250, blank=True)
     date_posted=models.DateField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    likes = models.ManyToManyField(User, related_name='likes', blank=True, )
+    likes = models.ManyToManyField(User, related_name='likes', blank=True)
     
     def save_image(self):
         self.save() 

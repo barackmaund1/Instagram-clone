@@ -18,3 +18,15 @@ class TestProfile(TestCase):
         self.profile_test.save_profile()
         after = Profile.objects.all()
         self.assertTrue(len(after) > 0)
+    def test_profile_creation(self):
+        User = get_user_model()
+        # New user created
+        user = User.objects.create(
+            username="taskbuster", password="django-tutorial")
+        # Check that a Profile instance has been crated
+        self.assertIsInstance(user.profile, models.Profile)
+        # Call the save method of the user to activate the signal
+        # again, and check that it doesn't try to create another
+        # profile instace
+        user.save()
+        self.assertIsInstance(user.profile, models.Profile)    

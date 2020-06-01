@@ -5,6 +5,7 @@ from django.views.generic import ListView,DetailView,CreateView,UpdateView,Delet
 from .forms import ImageForm,CommentForm
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
 # Create your views here.
 
 class PostListView(ListView):
@@ -60,27 +61,25 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.author:
             return True
         return False
-
-def post_detail(request, id):
-    template_name = 'ista/image_detail.html'
-    post = get_object_or_404(Image, pk=id)
-    comments = post.comments.filter(active=True)
-    new_comment = None
-    # Comment posted
+def post_comment(request, id):
+    image = get_object_or_404(Image, pk=id)
+    is_liked = False
+    if image.likes.filter(id=request.user.id).exists():
+        is_liked = True
     if request.method == 'POST':
-        comment_form = CommentForm(data=request.POST)
-        if comment_form.is_valid():
-
-            # Create Comment object but don't save to database yet
-            new_comment = comment_form.save(commit=False)
-            # Assign the current post to the comment
-            new_comment.post = post
-            # Save the comment to the database
-            new_comment.save()
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            savecomment = form.save(commit=False)
+            savecomment.post = image
+            savecomment.user = request.user.profile
+            savecomment.save()
+            return HttpResponseRedirect(request.path_info)
     else:
-        comment_form = CommentForm()
-
-    return render(request, template_name, {'post': post,
-                                           'comments': comments,
-                                           'new_comment': new_comment,
-                                           'comment_form': comment_form})
+        form = CommentForm()
+    params = {
+        'image': image,
+        'form': form,
+        'is_liked': is_liked,
+        'total_likes': image.total_likes()
+    }
+    return render(request, 'ista/comment.html', params)

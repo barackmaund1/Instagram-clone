@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Image,Comment,Follower
+from .models import Image,Comment
 # Register your models here.
 admin.site.register(Image)
 admin.site.register(Comment)
-admin.site.register(Follower)
+
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('image', 'comment', 'pub_date','active')

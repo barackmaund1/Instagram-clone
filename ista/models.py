@@ -23,7 +23,7 @@ class Image(models.Model):
         ordering = ["-pk"]
     def __str__(self):
         return self.image_name
-
+  
 class Comment(models.Model):
     class Meta:
         db_table = "comments"     

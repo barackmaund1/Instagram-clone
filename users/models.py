@@ -36,4 +36,4 @@ class Follower(models.Model):
         unique_together = ('follower', 'following')
 
     def __unicode__(self):
-        return u'%s follows %s' % (self.follower, self.following)              
+        return u'%s follows %s' % (self.follower, self.following)            

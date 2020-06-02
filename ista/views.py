@@ -62,29 +62,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.author:
             return True
         return False
-# def post_comment(request, id):
-    
-#     image = get_object_or_404(Image, pk=id)
-#     is_liked = False
-#     if image.likes.filter(id=request.user.id).exists():
-#         is_liked = True
-#     if request.method == 'POST':
-#         form = CommentForm(request.POST)
-#         if form.is_valid():
-#             savecomment = form.save(commit=False)
-#             savecomment.post = image
-#             savecomment.user = request.user.profile
-#             savecomment.save()
-#             return HttpResponseRedirect(request.path_info)
-#     else:
-#         form = CommentForm()
-#     params = {
-#         'image': image,
-#         'form': form,
-#         'is_liked': is_liked,
-#         'total_likes': image.total_likes()
-#     }
-#     return render(request, 'ista/comment.html', params)
+
 class CreatePost(LoginRequiredMixin, CreateView):
     model = Image
     fields = ['photo', 'caption', 'location']
@@ -103,7 +81,5 @@ class CreateComment(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-    # def get_success_url(self, **kwargs):
-    #     pk = self.kwargs.get('pk')
-    #     return reverse('comment', args={pk: 'pk'})
+
 

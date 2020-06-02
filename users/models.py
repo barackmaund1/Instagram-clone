@@ -5,8 +5,8 @@ from PIL import Image
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics/')
-    address=models.CharField(max_length=50)
-    bio=models.CharField(max_length=100)
+    address=models.CharField(max_length=50 ,blank=True,null=True)
+    bio=models.CharField(max_length=100,blank=True,null=True)
     
     
     
@@ -28,6 +28,7 @@ class Profile(models.Model):
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.image.path)
+    
 class Follower(models.Model):
     follower = models.ForeignKey(User,on_delete=models.CASCADE, related_name='following')
     following = models.ForeignKey(User,on_delete=models.CASCADE,  related_name='followers')

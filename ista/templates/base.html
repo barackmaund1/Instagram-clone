@@ -15,9 +15,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+          
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+          
+          
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}"> 
+     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"> 
 
     {% if title %}
         <title>Django Instagram - {{ title }}</title>
@@ -26,29 +30,10 @@
     {% endif %}
 </head>
 <body>
-  <header class="site-header">
-    <div class="navbar fixed-top bg-white">
-      <nav class="container">
-        <span class="navbar-brand mb-0 h1">
-            <a href="/">
-                <div id="brand" class="instaicon logo d-none d-sm-block"></div>
-                <div class="instaicon mainicon d-block d-sm-none"></div>
-            </a>
-        </span>
-          <form class="mb-0 h1 ml-auto mr-auto" id="searchform" action="{% url 'search' %}" >
-               <input name="search_user" autocomplete="off" id="searching" class="form-control d-none d-md-block" placeholder="Search">
-              <i class="spinner "></i>
-          </form>
-          <span class="pull-right">
-              <div class="instaicon disc"></div>
-              <div class="instaicon like"></div>
-              <a href="{% url 'profile' %}"  class="instaicon pers"></a>
-          </span>
-      </nav>
-  </div>
-  </header>
-
+  {% include 'navbar.html' %}
+  
     <main role="main" class="container">
+
       <div class="row">
         <div class="col-md-8">
           {% if messages %}
@@ -65,10 +50,23 @@
             <h3>Our Sidebar</h3>
             <p class='text-muted'>You can put any information here you'd like.
               <ul class="list-group">
-                <li class="list-group-item list-group-item-light">Latest Posts</li>
-                <li class="list-group-item list-group-item-light">Announcements</li>
-                <li class="list-group-item list-group-item-light">Calendars</li>
-                <li class="list-group-item list-group-item-light">etc</li>
+                {% for user in users %}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2 mr-3 mt-1 mb-2">
+                            <img class="rounded-circle" src="{{ user.profile.url }}"
+                                 width="45px" height="45px">
+                        </div>
+                        <div class="col-md-6 mr-2 mt-2">
+                          {{ view.kwargs.username }}
+                            <span><a href="{% url 'user_profile' user.username  %}">{{user.username}}</a></span>
+                        </div>
+                        <div class="col-md-4">
+                        </div>
+                    </div>
+                </div>
+
+                {% endfor %}
               </ul>
             </p>
           </div>

@@ -14,7 +14,7 @@ class PostListView(LoginRequiredMixin,ListView):
     template_name = 'ista/home.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'images'
     ordering = ['-date_posted']
-    paginate_by = 5  
+    paginate_by = 4 
    
 class UserPostListView(ListView,LoginRequiredMixin):
     model = Image

@@ -9,13 +9,13 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 # Create your views 
 
-class PostListView(ListView,LoginRequiredMixin):
+class PostListView(LoginRequiredMixin,ListView):
     model = Image
     template_name = 'ista/home.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'images'
     ordering = ['-date_posted']
     paginate_by = 5  
-
+   
 class UserPostListView(ListView,LoginRequiredMixin):
     model = Image
     # <app>/<model>_<viewtype>.html image_list.html
@@ -79,7 +79,6 @@ class CreateComment(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         form.instance.image_id = self.kwargs['pk']
         return super().form_valid(form)
-
 
 
 
